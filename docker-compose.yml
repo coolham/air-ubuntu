@@ -8,7 +8,7 @@ services:
       resources:
         limits:
           cpus: "2"
-          memory: 1G      
+          memory: 2G      
     ports:
       - '12001-12099:22'
       - '12101-12199:3389'
