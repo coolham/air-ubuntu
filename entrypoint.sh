@@ -56,8 +56,8 @@ echo "vnc service started" >> /var/log/x11vnc.log
 
 echo "entrypoint.sh complete"
 
-#tail -f /dev/null
+tail -f /dev/null
 
 # Keep the container running
-trap "exit 0" SIGINT SIGTERM
-while true; do sleep 1; done
+#trap "exit 0" SIGINT SIGTERM
+#while true; do sleep 1; done
