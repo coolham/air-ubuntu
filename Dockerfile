@@ -16,16 +16,19 @@ ENV VNC_PW=$USER_PASSWORD
 
 
 # 安装 X Window 相关软件
-RUN set -xe && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y xorg openbox
+#RUN set -xe && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y xorg openbox
+RUN set -xe && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y xserver-xorg-core openbox
 
 RUN set -xe && apt-get install -y net-tools vim
-RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver xvfb
-RUN set -xe && apt-get install -y gdm3 dbus-x11 x11-xserver-utils xubuntu-desktop
+#RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver xvfb
+RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver
+#RUN set -xe && apt-get install -y gdm3 dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base
+RUN set -xe && apt-get install -y dbus dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base
 RUN set -xe && apt-get install -y python3 bash curl 
 RUN set -xe && apt-get install -y dnsutils proxychains
 RUN set -xe && apt-get install -y xrdp
 
-RUN set -xe && apt-get install -y nvidia-driver-545-open 
+#RUN set -xe && apt-get install -y nvidia-driver-545-open 
 
 RUN update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
