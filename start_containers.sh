@@ -18,11 +18,13 @@ fi
 
 echo "start n=${CONTAINER_COUNT} instances"
 
+# 读取代理服务器配置文件
+PROXY_FILE="proxies.txt"
+proxies=()
+while IFS=: read -r ip port user password; do
+    proxies+=("$ip" "$port" "$user" "$password")
+done < "$PROXY_FILE"
 
-ENV_TMP=.env_tmp
-
-# 动态生成 .env 文件内容
-echo "CONTAINER_COUNT=${CONTAINER_COUNT}" > ${ENV_TMP}
 
 
 # 生成 dynamic_docker-compose.yml 文件
@@ -32,6 +34,7 @@ version: '3'
 services:
 EOF
 
+proxy_index=0
 for ((i=1; i<=$CONTAINER_COUNT; i++))
 do
     SERVICE_NAME="wj-airdrop-$(printf %02d $i)"
@@ -51,14 +54,22 @@ do
       - '$((12000 + $i)):22'
       - '$((12100 + $i)):3389'
       - '$((12200 + $i)):5901'
-    env_file: .env_tmp
     volumes:
       - './${HOST_VOLUME_DIR}:/root/.config/google-chrome'
+    environment:
+      - PROXY_TYPE=socks5
+      - PROXY_IP=${proxies[$proxy_index]}
+      - PROXY_PORT=${proxies[$((proxy_index+1))]}
+      - PROXY_USER=${proxies[$((proxy_index+2))]}
+      - PROXY_PASSWORD=${proxies[$((proxy_index+3))]}
 EOF
 
     # 创建宿主机目录并将卷映射到该目录
     mkdir -p $HOST_VOLUME_DIR
     docker volume create $VOLUME_NAME
+
+    # 更新代理索引
+    proxy_index=$((proxy_index+4))
 done
 
 # 使用 Docker Compose 启动多个实例

@@ -12,6 +12,18 @@ echo "current time is: $current_time"
 export USER=root
 export DISPLAY=:1
 
+
+# 设置信号处理函数
+cleanup() {
+    # 在这里执行通知桌面环境退出的操作
+    echo "Notifying XFCE4 desktop environment to logout..."
+    DISPLAY=${DISPLAY} xfce4-session-logout --logout
+}
+
+# Set up proxy server variables based on environment variables
+echo "socks5 $PROXY_IP $PROXY_PORT $PROXY_USER $PROXY_PASSWORD" > /etc/proxy_tmp
+sed -i "s|^socks.*$|$(cat /etc/proxy_tmp)|" /etc/proxychains.conf
+
 # 启动 SSH Server
 service ssh start
 
@@ -56,8 +68,9 @@ echo "vnc service started" >> /var/log/x11vnc.log
 
 echo "entrypoint.sh complete"
 
-tail -f /dev/null
+#tail -f /dev/null
 
 # Keep the container running
-#trap "exit 0" SIGINT SIGTERM
-#while true; do sleep 1; done
+while true; do
+    sleep 1
+done

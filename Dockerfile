@@ -96,7 +96,12 @@ RUN update-desktop-database /usr/share/applications
 
 
 # proxychains
-RUN sed -i 's/socks4 127.0.0.1 9050/socks5 $PROXY_IP $PROXY_PORT $PROXY_USER $PROXY_PASSWORD/g' /etc/proxychains.conf
+#RUN chmod 644 /etc/proxychains.conf && \
+#  sed -i "s/^socks4.*$/socks5 $PROXY_IP $PROXY_PORT $PROXY_USER $PROXY_PASSWORD/" /etc/proxychains.conf
+
+RUN chmod 644 /etc/proxychains.conf && \
+    echo "socks5 $PROXY_IP $PROXY_PORT $PROXY_USER $PROXY_PASSWORD" > proxy_tmp && \
+    sed -i "s/^socks4.*$/$(cat proxy_tmp)/" /etc/proxychains.conf 
 
 # 创建用户 aladdin，并将其添加到 sudo 组
 RUN useradd -ms /bin/bash aladdin && \
