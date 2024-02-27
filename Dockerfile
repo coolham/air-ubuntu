@@ -23,7 +23,7 @@ RUN set -xe && apt-get install -y net-tools vim
 #RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver xvfb
 RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver xvfb
 #RUN set -xe && apt-get install -y gdm3 dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base
-RUN set -xe && apt-get install -y dbus dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base
+RUN set -xe && apt-get install -y dbus dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base 
 RUN set -xe && apt-get install -y python3 bash curl 
 RUN set -xe && apt-get install -y dnsutils proxychains
 RUN set -xe && apt-get install -y xrdp
@@ -54,12 +54,8 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 # 设置 root 用户密码
 RUN echo 'root:'$USER_PASSWORD | chpasswd
 
-# 将 Xauthority 文件添加到容器镜像中
 COPY config/Xauthority /root/.Xauthority
-
-# 设置 Xauthority 文件权限
 RUN chmod 600 /root/.Xauthority
-
 
 
 COPY config/vnc/xstartup  /root/.vnc/xstartup
