@@ -21,7 +21,7 @@ RUN set -xe && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install 
 
 RUN set -xe && apt-get install -y net-tools vim
 #RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver xvfb
-RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver
+RUN set -xe && apt-get install -y supervisor openssh-server x11vnc xfce4 xfce4-goodies xfce4-terminal paper-icon-theme tightvncserver xvfb
 #RUN set -xe && apt-get install -y gdm3 dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base
 RUN set -xe && apt-get install -y dbus dbus-x11 x11-xserver-utils xubuntu-desktop xfonts-base
 RUN set -xe && apt-get install -y python3 bash curl 
