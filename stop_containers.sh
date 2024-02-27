@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/bash 
 
-docker-compose down
+docker-compose -f dynamic_docker-compose.yml down
