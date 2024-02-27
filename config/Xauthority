@@ -1,0 +1,4 @@
+magic: cookie
+version: 1
+authority: /etc/X11/Xauthority
+localhost:0  64  localhost
