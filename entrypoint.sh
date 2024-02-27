@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -x
+exec &> /var/log/entrypoint.log
+
 export USER=root
 export DISPLAY=:0
 
@@ -21,7 +24,10 @@ sleep 2  # Add a delay to ensure X server is fully started
 #x11vnc -storepasswd root123 /etc/vnc/vncpasswd
 #x11vnc -forever -rfbauth /etc/vnc/vncpasswd >> /var/log/x11vnc.log 2>&1 &
 
-vncserver :1 -geometry 1280x800 -depth 24 &
+pkill Xtightvnc
+
+#vncserver :1 -geometry 1280x800 -depth 24 &
+vncserver :1 -geometry 1280x800 -depth 24 >> /var/log/tightvnc.log 2>&1 &
 
 # output debug info
 echo "vnc service started" >> /var/log/x11vnc.log

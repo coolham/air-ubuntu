@@ -25,6 +25,8 @@ RUN set -xe && apt-get install -y python3 bash curl
 RUN set -xe && apt-get install -y dnsutils proxychains
 RUN set -xe && apt-get install -y xrdp
 
+RUN set -xe && apt-get install -y nvidia-driver-545-open 
+
 RUN update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
 RUN adduser xrdp ssl-cert
