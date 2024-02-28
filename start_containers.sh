@@ -45,6 +45,8 @@ do
     cat <<EOF >> dynamic_docker-compose.yml
   $SERVICE_NAME:
     image: 'wj-airdrop'
+    hostname: ${SERVICE_NAME}
+    restart: always
     privileged: true
     deploy:
       resources:
