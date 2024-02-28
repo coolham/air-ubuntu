@@ -47,8 +47,8 @@ RUN mkdir /var/run/sshd &&  \
 
 RUN wget -q -O - http://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-#RUN apt-get update -y && apt-get install -y google-chrome-stable &&  update-alternatives --set x-www-browser /usr/bin/google-chrome
-RUN apt-get update -y && apt-get install -y google-chrome-stable 
+RUN apt-get update -y && apt-get install -y google-chrome-stable &&  update-alternatives --set x-www-browser /usr/bin/google-chrome-stable
+#RUN apt-get update -y && apt-get install -y google-chrome-stable 
 
 # 安装依赖工具和Chromedriver所需的软件包
 
