@@ -2,6 +2,8 @@
 
 set +x
 
+USER=aladdin
+
 # 检查 .env 文件是否存在
 if [ ! -f .env ]; then
     echo "Error: .env file not found. Please create a .env file with necessary configurations."
@@ -38,7 +40,6 @@ proxy_index=0
 for ((i=1; i<=$CONTAINER_COUNT; i++))
 do
     SERVICE_NAME="wj-airdrop-$(printf %02d $i)"
-    VOLUME_NAME="chrome_volume_${i}"
     HOST_VOLUME_DIR="user_volumes/${SERVICE_NAME}"
 
     cat <<EOF >> dynamic_docker-compose.yml
@@ -48,15 +49,17 @@ do
     deploy:
       resources:
         limits:
-          cpus: "2"
+          cpus: 2
           memory: 2G
     ports:
       - '$((12000 + $i)):22'
       - '$((12100 + $i)):3389'
       - '$((12200 + $i)):5901'
     volumes:
-      - './${HOST_VOLUME_DIR}:/root/.config/google-chrome'
+      - './${HOST_VOLUME_DIR}/google-chrome:/home/aladdin/.config/google-chrome'
     environment:
+      - USER=aladdin
+      - PASSWORD=aladdin123
       - PROXY_TYPE=socks5
       - PROXY_IP=${proxies[$proxy_index]}
       - PROXY_PORT=${proxies[$((proxy_index+1))]}

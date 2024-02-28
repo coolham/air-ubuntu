@@ -12,7 +12,7 @@ ENV USER=ubuntu \
 ## Install some common tools 
 RUN apt-get update  && \
     apt-get install -y ca-certificates sudo vim gedit locales wget curl git lsb-release net-tools iputils-ping mesa-utils proxychains \
-                    openssh-server bash-completion software-properties-common python3-pip  && \
+                    openssh-server bash-completion software-properties-common unzip python3-pip  && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
     pip3 install --upgrade pip &&\
     rm -rf /var/lib/apt/lists/* 
@@ -48,6 +48,15 @@ RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc
 #RUN apt-get update -y && apt-get install -y google-chrome-stable &&  update-alternatives --set x-www-browser /usr/bin/google-chrome
 RUN apt-get update -y && apt-get install -y google-chrome-stable 
 
+# 安装依赖工具和Chromedriver所需的软件包
+RUN LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
+    wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip && \
+    unzip chromedriver_linux64.zip && \
+    chmod +x chromedriver && \
+    mv chromedriver /usr/bin/ && \
+    apt-get remove -y wget unzip && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN set -xe && apt-get update && apt-get install -y x11vnc tightvncserver
 
