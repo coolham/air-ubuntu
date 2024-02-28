@@ -37,7 +37,7 @@ if [ ! -f "/docker_config/init_flag" ]; then
 Version=1.0
 Name=Google Chrome Stable
 Comment=Access the Internet with Google Chrome
-Exec=/usr/bin/google-chrome-stable --args --restore-last-session
+Exec=/usr/bin/proxychains /usr/bin/google-chrome-stable --args --restore-last-session
 Icon=google-chrome
 Terminal=false
 Type=Application
