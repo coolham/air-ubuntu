@@ -28,6 +28,7 @@ sed -i "s|^socks.*$|$(cat /etc/proxy_tmp)|" /etc/proxychains.conf
 service ssh start
 
 
+
 # 检查是否有旧的 VNC 服务器在运行，并尝试停止它
 if pgrep Xtightvnc >/dev/null; then
     echo "Stopping existing VNC server..."
@@ -48,11 +49,18 @@ rm -f /tmp/.X11-unix/X1
 #xauth merge /root/.Xauthority
 
 # 启动 dbus 服务
-/etc/init.d/dbus start
+#/etc/init.d/dbus start
 
 # Start X server
 #Xorg :0 &
 #startxfce4 &
+# 切换到 aladdin 用户
+USER aladdin
+WORKDIR /home/aladdin
+
+# 启动 XFCE4 桌面环境
+startxfce4 &
+
 sleep 2  # Add a delay to ensure X server is fully started
 
 
