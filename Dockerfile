@@ -3,11 +3,15 @@ FROM ubuntu:22.04
 LABEL maintainer "James Ding"
 MAINTAINER James Ding "https://github.com/coolham"
 
+ENV POLIPO_VERSION 1.1.1
+
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER=ubuntu \
     PASSWORD=ubuntu \
     UID=1000 \
     GID=1000
+
 
 ENV VGL_DISPLAY=egl
 
@@ -40,13 +44,13 @@ RUN apt-get update && \
     \"library_path\": \"libGLX_nvidia.so.0\",\n\
         \"api_version\" : \"${VULKAN_API_VERSION}\"\n\
 }\n\
-}" > /etc/vulkan/icd.d/nvidia_icd.json
+}" > /etc/vulkan/icd.d/nvidia_icd
 
 
 ## Install some common tools 
 RUN apt-get update  && \
     apt-get install -y ca-certificates sudo vim gedit locales wget curl git lsb-release net-tools iputils-ping mesa-utils proxychains \
-                    openssh-server bash-completion software-properties-common unzip python3-pip  && \
+                    openssh-server bash-completion software-properties-common unzip python3-pip shadowsocks-libev && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 2 && \
     pip3 install --upgrade pip &&\
     pip3 install selenium && \
@@ -88,6 +92,18 @@ RUN apt-get update -y && apt-get install -y google-chrome-stable &&  update-alte
 
 
 RUN set -xe && apt-get update && apt-get install -y x11vnc tightvncserver
+
+
+RUN curl -sSLO https://github.com/jech/polipo/archive/polipo-$POLIPO_VERSION.tar.gz \
+    && tar -zxf polipo-$POLIPO_VERSION.tar.gz \
+    && cd polipo-polipo-$POLIPO_VERSION \
+    && make -j${NPROC} \
+    && cp polipo /usr/local/bin/polipo \
+    && mkdir -p /usr/share/polipo/www /var/cache/polipo \
+    && mkdir -p /etc/polipo && cp config.sample /etc/polipo/config.sample
+
+RUN mkdir -p /var/log/polipo
+
 
 EXPOSE 22 5901 3389
 

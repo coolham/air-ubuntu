@@ -59,6 +59,7 @@ do
       - '$((12200 + $i)):5901'
     volumes:
       - './${HOST_VOLUME_DIR}/google-chrome:/home/aladdin/.config/google-chrome'
+      - './proxy_config/config${i}:/config'
     environment:
       - USER=aladdin
       - PASSWORD=aladdin123

@@ -35,9 +35,9 @@ if [ ! -f "/docker_config/init_flag" ]; then
     su - $USER -c 'cat <<EOF > ~/.local/share/applications/chrome.desktop
 [Desktop Entry]
 Version=1.0
-Name=Google Chrome Stable
+Name=Google Chrome Airdrop
 Comment=Access the Internet with Google Chrome
-Exec=/usr/bin/proxychains /usr/bin/google-chrome-stable --args --restore-last-session
+Exec=/usr/bin/google-chrome-stable --restore-last-session --disable-gpu
 Icon=google-chrome
 Terminal=false
 Type=Application
@@ -69,6 +69,14 @@ fi
 # Set up proxy server variables based on environment variables
 echo "socks5 $PROXY_IP $PROXY_PORT $PROXY_USER $PROXY_PASSWORD" > /etc/proxy_tmp
 sed -i "s|^socks.*$|$(cat /etc/proxy_tmp)|" /etc/proxychains.conf
+
+
+
+# Start ss-local
+ss-local -c /config/ss-config.json &
+
+# Start Polipo
+polipo -c /config/polipo-config &
 
 
 # start sshd&nxserver
