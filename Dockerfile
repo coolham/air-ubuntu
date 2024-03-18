@@ -14,6 +14,8 @@ ENV USER=ubuntu \
 
 
 ENV VGL_DISPLAY=egl
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=all
 
 ## Install and Configure OpenGL
 RUN apt-get update && \
@@ -103,6 +105,8 @@ RUN curl -sSLO https://github.com/jech/polipo/archive/polipo-$POLIPO_VERSION.tar
     && mkdir -p /etc/polipo && cp config.sample /etc/polipo/config.sample
 
 RUN mkdir -p /var/log/polipo
+
+
 
 
 EXPOSE 22 5901 3389

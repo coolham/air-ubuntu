@@ -50,6 +50,10 @@ do
     privileged: true
     deploy:
       resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
         limits:
           cpus: 2
           memory: 2G
